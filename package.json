@@ -1,0 +1,7 @@
+{
+  "name": "mmm-sncf-station-board",
+  "version": "1.0.0",
+  "description": "MagicMirror² module — affiche les prochains départs/arrivées d'une gare TER SNCF, sans token API",
+  "main": "MMM-SNCF-Station-Board.js",
+  "dependencies": {}
+}
