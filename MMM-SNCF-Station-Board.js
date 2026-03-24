@@ -28,6 +28,7 @@ Module.register("MMM-SNCF-Station-Board", {
 
   start() {
     this.trains = [];
+    this.globalAlert = null;
     this.loaded = false;
     this.error = null;
     this.fetchBoard();
@@ -41,6 +42,7 @@ Module.register("MMM-SNCF-Station-Board", {
   socketNotificationReceived(notification, payload) {
     if (notification === "BOARD_DATA") {
       this.trains = payload.trains;
+      this.globalAlert = payload.globalAlert || null;
       this.loaded = true;
       this.error = null;
       this.updateDom(this.config.animationSpeed);
@@ -133,6 +135,17 @@ Module.register("MMM-SNCF-Station-Board", {
     }
 
     wrapper.appendChild(table);
+
+    if (this.globalAlert) {
+      const alertEl = document.createElement("div");
+      alertEl.className = "nb-global-alert";
+      const max = 90;
+      alertEl.textContent = "⚠ " + (this.globalAlert.length > max
+        ? this.globalAlert.substring(0, max) + "…"
+        : this.globalAlert);
+      wrapper.appendChild(alertEl);
+    }
+
     return wrapper;
   },
 });

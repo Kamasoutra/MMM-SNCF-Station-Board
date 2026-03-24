@@ -87,22 +87,42 @@ module.exports = NodeHelper.create({
         if (a.line?.number) arrByTrain[a.line.number] = a;
       }
 
-      const trains = deps.slice(0, count).map((dep) => {
+      const slice = deps.slice(0, count);
+
+      // Compter combien de trains partagent chaque alerte
+      const alertCount = {};
+      for (const dep of slice) {
+        for (const m of dep.situationalMessages || []) {
+          if (m.categoryId !== "4" && m.body) {
+            alertCount[m.body] = (alertCount[m.body] || 0) + 1;
+          }
+        }
+      }
+      // Alertes présentes sur >1 train = alerte globale, pas spécifique
+      const globalBodies = new Set(
+        Object.entries(alertCount).filter(([, n]) => n > 1).map(([b]) => b)
+      );
+      const globalAlert = [...globalBodies][0] || null;
+
+      const trains = slice.map((dep) => {
         const num = dep.line?.number;
         const arr = arrByTrain[num];
         const messages = dep.situationalMessages || [];
         const status = this.detectStatus(messages);
+        const trainAlert = status ? null : (
+          messages.find(m => m.categoryId !== "4" && m.body && !globalBodies.has(m.body))?.body || null
+        );
         return {
           time: this.hhmm(dep.departureDate),
           from: arr?.line?.origine?.name || null,
           to: dep.line?.destination?.name || "?",
           train: num || "",
           status,
-          alert: status ? null : (messages.find(m => m.categoryId !== "4")?.body || null),
+          alert: trainAlert,
         };
       });
 
-      this.sendSocketNotification("BOARD_DATA", { trains });
+      this.sendSocketNotification("BOARD_DATA", { trains, globalAlert });
     } catch (err) {
       console.error("MMM-SNCF-Station-Board:", err.message);
       this.sendSocketNotification("BOARD_ERROR", { error: err.message });
