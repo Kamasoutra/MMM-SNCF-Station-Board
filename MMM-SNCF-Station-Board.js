@@ -134,18 +134,17 @@ Module.register("MMM-SNCF-Station-Board", {
       table.appendChild(row);
     }
 
-    wrapper.appendChild(table);
-
     if (this.globalAlert) {
-      const alertEl = document.createElement("div");
-      alertEl.className = "nb-global-alert";
-      const max = 90;
-      alertEl.textContent = "⚠ " + (this.globalAlert.length > max
-        ? this.globalAlert.substring(0, max) + "…"
-        : this.globalAlert);
-      wrapper.appendChild(alertEl);
+      const alertRow = document.createElement("tr");
+      alertRow.className = "nb-alert-row";
+      const alertCell = document.createElement("td");
+      alertCell.colSpan = 5;
+      alertCell.textContent = "⚠ " + this.globalAlert;
+      alertRow.appendChild(alertCell);
+      table.appendChild(alertRow);
     }
 
+    wrapper.appendChild(table);
     return wrapper;
   },
 });
