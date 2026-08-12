@@ -82,12 +82,13 @@
   font-style: italic;
   opacity: 0.75;
   margin-top: 5px;
-  /* Largeur initiale = 100% du parent (table).
-     JS fixe ensuite le parent et laisse l'alerte s'étendre jusqu'à 2x. */
+  /* Ne participe pas à la largeur intrinsèque du module, mais occupe toute la
+     largeur définie par le tableau. */
   width: 0;
   min-width: 100%;
   white-space: normal;
-  word-break: break-word;
-  overflow-wrap: break-word;
-  text-align: justify;
+  overflow-wrap: anywhere;
+  box-sizing: border-box;
+  line-height: 1.35;
+  text-align: center;
 }
