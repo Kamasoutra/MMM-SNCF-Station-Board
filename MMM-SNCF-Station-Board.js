@@ -13,6 +13,7 @@ Module.register("MMM-SNCF-Station-Board", {
     stationSlug: "artenay-87543058",
     maxItems: 6,
     updateInterval: 60 * 1000,
+    flareSolverrTimeout: 30 * 1000,
     animationSpeed: 800,
     title: "Gare d'Artenay",
     stationNames: {},
@@ -141,6 +142,18 @@ Module.register("MMM-SNCF-Station-Board", {
       alertEl.className = "nb-global-alert";
       alertEl.textContent = "⚠ " + this.globalAlert;
       wrapper.appendChild(alertEl);
+
+      // Après insertion dans le DOM : fixer le wrapper à la largeur de la table,
+      // puis laisser l'alerte s'étendre jusqu'au double (overflow visible).
+      // setTimeout 0 garantit que le DOM est inséré et mesuré après rAF.
+      setTimeout(() => {
+        const tw = table.offsetWidth;
+        if (tw > 0) {
+          wrapper.style.width = tw + "px";
+          alertEl.style.width = "max-content";
+          alertEl.style.maxWidth = (tw * 2) + "px";
+        }
+      }, 0);
     }
 
     return wrapper;

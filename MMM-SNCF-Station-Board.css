@@ -82,12 +82,12 @@
   font-style: italic;
   opacity: 0.75;
   margin-top: 5px;
-  /* width: 0 exclut cet élément du calcul de largeur du parent inline-block,
-     min-width: 100% le force à la largeur du parent au rendu */
+  /* Largeur initiale = 100% du parent (table).
+     JS fixe ensuite le parent et laisse l'alerte s'étendre jusqu'à 2x. */
   width: 0;
   min-width: 100%;
   white-space: normal;
   word-break: break-word;
   overflow-wrap: break-word;
-  box-sizing: border-box;
+  text-align: justify;
 }
