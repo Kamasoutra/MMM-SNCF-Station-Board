@@ -2,7 +2,7 @@
 
 MagicMirror² module that displays upcoming **TER SNCF train departures and arrivals** for a given station — **no API token required**.
 
-Data is scraped from [ter.sncf.com](https://www.ter.sncf.com) via [FlareSolverr](https://github.com/FlareSolverr/FlareSolverr), which handles the Cloudflare protection.
+Data is scraped from [ter.sncf.com](https://www.ter.sncf.com) via [FlareSolverr](https://github.com/FlareSolverr/FlareSolverr), which handles the Cloudflare protection. If FlareSolverr is unavailable or times out, the module automatically falls back to the official SNCF GTFS schedule published by [transport.data.gouv.fr](https://transport.data.gouv.fr/datasets/horaires-sncf). The fallback keeps the board populated without an API token; disruption messages are available only from the primary TER source.
 
 ```
         Orléans   12:11   Paris
@@ -81,6 +81,7 @@ https://www.ter.sncf.com/centre-val-de-loire/se-deplacer/prochains-departs/arten
 | `stationSlug` | `"artenay-87543058"` | Station identifier from ter.sncf.com URL |
 | `maxItems` | `6` | Number of trains to display |
 | `updateInterval` | `300000` | Refresh interval in ms |
+| `flareSolverrTimeout` | `30000` | Delay before falling back to the official SNCF GTFS schedule |
 | `title` | `"Gare d'Artenay"` | Module header |
 | `stationNames` | `{}` | Map of full names → short display names |
 

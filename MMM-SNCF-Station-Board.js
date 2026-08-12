@@ -13,6 +13,7 @@ Module.register("MMM-SNCF-Station-Board", {
     stationSlug: "artenay-87543058",
     maxItems: 6,
     updateInterval: 60 * 1000,
+    flareSolverrTimeout: 30 * 1000,
     animationSpeed: 800,
     title: "Gare d'Artenay",
     stationNames: {},
