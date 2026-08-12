@@ -66,6 +66,8 @@
 /* Plus spécifique que `.nb-table td`, qui impose `white-space: nowrap`. */
 .nb-table td.nb-alert {
   padding: 2px 4px 5px;
+  width: 0;
+  max-width: 0;
   white-space: normal;
   overflow-wrap: anywhere;
   line-height: 1.35;
